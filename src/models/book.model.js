@@ -1,0 +1,31 @@
+const mongoose = require("mongoose");
+
+const bookSchema = new mongoose.Schema(
+    {
+        title: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+        description: {
+            type: String,
+        },
+        publishedYear: {
+            type: Number,
+        },
+        genre: {
+            type: String,
+        },
+        author: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Author",
+            required: true,
+        },
+        coverImage: {
+            type: String, // URL or path if uploading with multer
+        },
+    },
+    { timestamps: true }
+);
+
+module.exports = mongoose.model("Book", bookSchema);
