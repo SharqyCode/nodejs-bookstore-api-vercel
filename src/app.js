@@ -21,7 +21,8 @@ if (config.NODE_ENV !== 'test') {
 }
 
 // Mount routes
-app.use('/api', bookRouter);
+app.use('/api/books', bookRouter);
+// app.use('/api/authors', authorRouter);
 
 // Error handler (must be last)
 app.use(errorMiddleware);
