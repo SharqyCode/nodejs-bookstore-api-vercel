@@ -14,7 +14,19 @@ const addBook = async (req, res) => {
     const newBook = await services.queryAddBook(newBookData)
     res.send(newBook)
 }
-function updateBook(req, res) { res.send("Update Book") }
-function deleteBook(req, res) { res.send("Delete Book") }
+const updateBook = async (req, res) => {
+    console.log("controller:", req.body, req.params.id);
+    const bookData = req.body;
+    const bookId = req.params.id;
+    const modBook = await services.queryUpdateBook(bookId, bookData)
+    res.send(modBook)
+}
+
+const deleteBook = async (req, res) => {
+    const bookId = req.params.id;
+    console.log(bookId);
+    const delBook = await services.queryDeleteBook(bookId)
+    res.send(delBook)
+}
 
 module.exports = { getAllBooks, getBookById, addBook, updateBook, deleteBook }

@@ -27,12 +27,14 @@ async function seed() {
 
         const books = await Book.insertMany([
             {
+                bookId: "dd05e806-1a52-467b-a26d-2e1338378e61",
                 title: "1984",
                 author: authors[0]._id,
                 publishedYear: 1949,
                 genre: "Dystopian",
             },
             {
+                bookId: "c5074a6f-4c58-4ec9-b0f9-3ae890b9743b",
                 title: "Harry Potter and the Philosopher's Stone",
                 author: authors[1]._id,
                 publishedYear: 1997,
