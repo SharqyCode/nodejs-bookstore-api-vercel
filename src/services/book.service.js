@@ -30,7 +30,6 @@ const queryAddBook = async (bookData) => {
     // Prevent duplicate entries
     try {
         const duplicates = await Books.find({ title: title })
-        console.log(duplicates);
         if (duplicates.length > 0) {
             throw new Error("Book already in DB");
         }
