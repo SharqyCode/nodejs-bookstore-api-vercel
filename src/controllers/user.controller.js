@@ -6,26 +6,33 @@ const registerUser = async (req, res) => {
     console.log("register");
     const userData = req.body
     const user = await userService.createUser(userData);
-    // res.send(user)
-    res.status(201).json({
-        status: "success",
-        data: { user },
-    });
+    if (user.status === "OK")
+        res.status(201).json(
+            user
+        );
+    else
+        res.status(400).json(
+            user
+        );
 }
 
 const loginUser = async (req, res) => {
     const userData = req.body;
     const token = await userService.loginUser(userData);
-    if (token)
-        res.send("login successful")
+    console.log(token);
+    if (token.status === "OK")
+        res.status(200).json(token);
     else
-        res.send("Login failed")
+        res.status(401).json(token);
 }
 
 const getProfile = async (req, res) => {
     const user = req.user
     console.log("controller:", user);
-    res.send(`${user.username}'s profile`)
+    res.status(200).json({
+        status: "success",
+        data: `${user.username}'s profile`
+    });
 }
 
 module.exports = { registerUser, loginUser, getProfile }

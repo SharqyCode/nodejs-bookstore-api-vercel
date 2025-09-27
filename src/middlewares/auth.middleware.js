@@ -16,12 +16,10 @@ const authMiddleware = async (req, res, next) => {
         const decoded = jwt.verify(token, config.jwt.secret);
         console.log("decoded:", decoded);
         const user = await User.findOne({ userId: decoded.id }, { password: 0 })
-        // console.log(user);
-
         req.user = user;
         next();
     } catch (err) {
-        res.send(`Couldn't access profile: ${err}`)
+        res.status(401).json({ status: "UNAUTHORIZED", message: `Couldn't access profile: ${err}` })
     }
 };
 

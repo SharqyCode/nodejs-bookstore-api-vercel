@@ -22,7 +22,7 @@ const addBookSchema = {
     additionalProperties: false
 }
 
-const validateAddBook = ajv.compile(addBookSchema);
+const validateAddBook = ajv.compile(addBookSchema).schema;
 
 
 const updateBookSchema = {
@@ -44,7 +44,7 @@ const updateBookSchema = {
     additionalProperties: false
 }
 
-const validateUpdateBook = ajv.compile(updateBookSchema);
+const validateUpdateBook = ajv.compile(updateBookSchema).schema;
 
 
 module.exports = { validateAddBook, validateUpdateBook }
