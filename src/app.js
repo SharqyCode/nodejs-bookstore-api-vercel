@@ -3,11 +3,10 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
-const routes = require('./routes');
 const errorMiddleware = require('./middlewares/error.middleware');
 const config = require('./config');
 const bookRouter = require('./routes/books.routes');
-
+const userRouter = require('./routes/user.routes');
 const app = express();
 
 // Global middlewares
@@ -22,6 +21,7 @@ if (config.NODE_ENV !== 'test') {
 
 // Mount routes
 app.use('/api/books', bookRouter);
+app.use('/', userRouter);
 // app.use('/api/authors', authorRouter);
 
 // Error handler (must be last)

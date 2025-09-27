@@ -8,7 +8,7 @@ A modular Bookstore REST API built with **Node.js, Express, and MongoDB**, featu
 
 - 📖 CRUD for books and authors
 - 👤 User authentication & authorization with JWT
-- ✅ Request validation with `express-validator` / `joi`
+- ✅ Request validation with ajv
 - 🛡 Secure setup with Helmet, CORS, rate limiting, bcrypt password hashing
 - 📝 Centralized error handling & logging middleware
 - 📦 Seed script for sample data
