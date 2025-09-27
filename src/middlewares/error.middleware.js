@@ -1,3 +1,3 @@
 module.exports = (req, res) => {
-    res.send("implement error here")
+    res.status(404).json({ status: "NOT FOUND" })
 }

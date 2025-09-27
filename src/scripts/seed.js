@@ -27,12 +27,14 @@ async function seed() {
 
         const books = await Book.insertMany([
             {
+                bookId: "dd05e806-1a52-467b-a26d-2e1338378e61",
                 title: "1984",
                 author: authors[0]._id,
                 publishedYear: 1949,
                 genre: "Dystopian",
             },
             {
+                bookId: "c5074a6f-4c58-4ec9-b0f9-3ae890b9743b",
                 title: "Harry Potter and the Philosopher's Stone",
                 author: authors[1]._id,
                 publishedYear: 1997,
@@ -42,6 +44,7 @@ async function seed() {
 
         const passwordHash = await bcrypt.hash("password123", 10);
         await User.create({
+            userId: "b1789a78-1301-4c67-b14d-3a8b7ca26399",
             username: "testuser",
             email: "test@example.com",
             password: passwordHash,
