@@ -7,9 +7,9 @@ const queryAllBooks = async () => {
         if (books.length === 0) {
             throw new Error("No books in DB");
         }
-        return books
+        return { status: 'OK', data: books }
     } catch (err) {
-        return `Couldn't fetch Data: ${err}\n`
+        return { status: "NO CONTENT", message: `Couldn't fetch Data: ${err}\n` }
     }
 }
 const queryBookById = async (id) => {
@@ -18,16 +18,15 @@ const queryBookById = async (id) => {
         if (!book) {
             throw new Error("Book not found");
         }
-        return book
+        return { status: 'OK', data: book }
     } catch (err) {
-        return `Couldn't fetch Data: ${err}\n`
+        return { status: 'NO CONTENT', message: `Couldn't fetch Data: ${err}\n` }
     }
 
 }
 
 const queryAddBook = async (bookData) => {
     const { title } = bookData
-    // Prevent duplicate entries
     try {
         const duplicates = await Books.find({ title: title })
         if (duplicates.length > 0) {
@@ -36,9 +35,9 @@ const queryAddBook = async (bookData) => {
         const newBook = new Books(bookData)
         newBook.bookId = uuidv4()
         await newBook.save()
-        return { msg: "Book added Successfully", data: newBook }
+        return { status: "CREATED", message: "Book added Successfully", data: newBook }
     } catch (err) {
-        return `Couldn't add book: ${err}\n`
+        return { status: 'BAD REQUEST', message: `Couldn't fetch Data: ${err}` }
     }
 }
 const queryUpdateBook = async (id, newData) => {
@@ -61,21 +60,24 @@ const queryUpdateBook = async (id, newData) => {
         }
         const newBook = await queryBookById(id)
         console.log(`${oldBook} ===> ${newBook}`);
-        return `Book updates successfully\n${oldBook}\n=== Updated to ===>\n${newBook}`
+        return { status: "OK", message: "Book updated Successfully", oldData: oldBook, newData: newBook }
     } catch (err) {
-        return `Couldn't update book: ${err}\n`
+        return {
+            status: "BAD REQUEST", message: `Couldn't update book: ${err}`
+        }
     }
 
 }
+
 const queryDeleteBook = async (id) => {
     try {
         const delBook = await Books.deleteOne({ bookId: id });
         if (delBook.acknowledged != true || delBook.deletedCount == 0)
             throw new Error("Book not found")
-        return "Book deleted Successfully"
+        return { status: "OK", message: "Book deleted Successfully" }
     }
     catch (err) {
-        return `Couldn't delete book: ${err}\n`
+        return { status: "400", message: `Couldn't delete book: ${err}` }
     }
 }
 

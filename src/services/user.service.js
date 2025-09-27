@@ -29,9 +29,10 @@ const createUser = async (userData) => {
         await user.save()
         const userObj = { ...userData };
         delete userObj.password;
-        return userObj;
+        return { status: "CREATED", message: "User Registered successfully", data: userObj }
+
     } catch (err) {
-        return `Couldn't register user: ${err}\n`
+        return { status: "BAD REQUEST", message: `Couldn't register user: ${err}` }
     }
 };
 
@@ -52,9 +53,10 @@ const loginUser = async (userData) => {
         const token = generateToken(user.userId);
         console.log(token);
 
+        return { status: "OK", message: `Login successful`, token }
         return token;
     } catch (err) {
-        return `Couldn't login user: ${err}`
+        return { status: "UNAUTHORIZED", message: `Couldn't login user: ${err}` }
     }
 };
 
