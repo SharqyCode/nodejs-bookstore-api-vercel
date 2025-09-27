@@ -1,6 +1,7 @@
 const services = require("../services/book.service")
 
 const getAllBooks = async (req, res) => {
+  
     const data = await services.queryAllBooks()
     res.send(data);
 }
