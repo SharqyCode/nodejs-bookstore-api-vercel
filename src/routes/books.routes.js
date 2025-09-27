@@ -1,5 +1,4 @@
 const { getAllBooks, getBookById, addBook, updateBook, deleteBook } = require("../controllers/book.controller")
-const bookModel = require("../models/book.model")
 const express = require("express")
 const { validateId, AddBookMiddleWare, updateBookMiddleWare } = require("../middlewares/validate.middleware")
 const { validateAddBook, validateUpdateBook } = require("../validators/book.validator")
