@@ -1,4 +1,5 @@
-const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
+const {verifyTokem} = require("../config/jwt")
 const config = require("../config");
 const { getUserById } = require("../services/user.service");
 const User = require("../models/user.model")
@@ -13,7 +14,7 @@ const authMiddleware = async (req, res, next) => {
 
         const token = authHeader.split(" ")[1];
 
-        const decoded = jwt.verify(token, config.jwt.secret);
+        const decoded = verifyTokem(token);
         console.log("decoded:", decoded);
         const user = await User.findOne({ userId: decoded.id }, { password: 0 })
         req.user = user;
