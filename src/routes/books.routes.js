@@ -2,15 +2,15 @@ const { getAllBooks, getBookById, addBook, updateBook, deleteBook } = require(".
 const express = require("express")
 const { validateId, AddBookMiddleWare, updateBookMiddleWare } = require("../middlewares/validate.middleware")
 const { validateAddBook, validateUpdateBook } = require("../validators/book.validator")
-const bookRouter = express.Router()
+const router = express.Router()
 
-bookRouter.param("id", validateId)
+router.param("id", validateId)
 
-bookRouter.get("/", getAllBooks)
-bookRouter.get("/:id", getBookById)
-bookRouter.post("/addBook", AddBookMiddleWare(validateAddBook), addBook)
-bookRouter.patch("/update/:id", updateBookMiddleWare(validateUpdateBook), updateBook)
-bookRouter.delete("/delete/:id", deleteBook)
+router.get("/", getAllBooks)
+router.get("/:id", getBookById)
+router.post("/addBook", AddBookMiddleWare(validateAddBook), addBook)
+router.patch("/update/:id", updateBookMiddleWare(validateUpdateBook), updateBook)
+router.delete("/delete/:id", deleteBook)
 
 
-module.exports = bookRouter
+module.exports = router
