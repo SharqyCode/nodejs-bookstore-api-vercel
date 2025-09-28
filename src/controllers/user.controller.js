@@ -27,8 +27,7 @@ const loginUser = async (req, res) => {
 }
 
 const getProfile = async (req, res) => {
-    const user = req.user
-    console.log("controller:", user);
+    const user = req.user;
     res.status(200).json({
         status: "success",
         data: `${user.username}'s profile`

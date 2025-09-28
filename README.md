@@ -10,7 +10,7 @@ A modular Bookstore REST API built with **Node.js, Express, and MongoDB**, featu
 - 👤 User authentication & authorization with JWT
 - ✅ Request validation with ajv
 - 🛡 Secure setup with Helmet, CORS, rate limiting, bcrypt password hashing
-- 📝 Centralized error handling & logging middleware
+- 📝 Centralized error handling & logging middleware (winston)
 - 📦 Seed script for sample data
 - 🧪 Unit & integration testing with Jest + Supertest
 - 📜 OpenAPI/Swagger documentation (`docs/swagger.json`)
