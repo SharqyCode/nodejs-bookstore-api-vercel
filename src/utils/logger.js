@@ -14,23 +14,23 @@ const logger = createLogger({
     format.simple()
     // format.prettyPrint()
   ),
-  transports: switchLogging(config.env),
+  transports: [new transports.Console()],
 });
 
 module.exports = logger;
 
-function switchLogging(env) {
-  if (env === "development") return [new transports.Console()];
-  else {
-    return [
-      new transports.File({
-        filename: "logs/quick-start-error.log",
-        level: "error",
-      }),
-      new transports.File({ filename: "logs/quick-start-combined.log" }),
-    ];
-  }
-}
+// function switchLogging(env) {
+//   if (env === "development") return [new transports.Console()];
+//   else {
+//     return [
+//       new transports.File({
+//         filename: "logs/quick-start-error.log",
+//         level: "error",
+//       }),
+//       new transports.File({ filename: "logs/quick-start-combined.log" }),
+//     ];
+//   }
+// }
 
 //
 // If we're not in production then **ALSO** log to the `console`

@@ -5,8 +5,8 @@ const authorRouter = require("./authors.routes");
 
 const router = express.Router();
 
-router.use("/api/books", bookRouter);
-router.use("/api/authors", authorRouter);
+router.use("/books", bookRouter);
+router.use("/authors", authorRouter);
 router.use("/u", userRouter);
 router.use("/", (req,res)=>{
     res.send("WELCOME")
