@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require("uuid")
 
 const queryAllBooks = async () => {
     try {
-        const books = await Books.find()
+        const books = await Books.find().populate("author")
         if (books.length === 0) {
             throw new Error("No books in DB");
         }
@@ -14,7 +14,7 @@ const queryAllBooks = async () => {
 }
 const queryBookById = async (id) => {
     try {
-        const book = await Books.findOne({ bookId: id })
+        const book = await Books.findOne({ bookId: id }).populate("author")
         if (!book) {
             throw new Error("Book not found");
         }
