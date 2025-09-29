@@ -5,6 +5,7 @@ const compression = require('compression');
 const errorMiddleware = require('./middlewares/error.middleware');
 const loggerMiddleware = require('./middlewares/logger.middleware');
 const router = require('./routes');
+const connectDB = require("./config/db");
 
 
 const app = express();
@@ -16,6 +17,9 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(loggerMiddleware)
+
+// connect DB only once (reused in serverless functions)
+connectDB(process.env.MONGO_URI);
 
 // Mount routes
 app.use('/', router);

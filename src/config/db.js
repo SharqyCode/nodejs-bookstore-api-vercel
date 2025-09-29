@@ -1,17 +1,26 @@
 const mongoose = require("mongoose");
-const config = require("./index");
 
-const connectDB = async () => {
+let isConnected; // track connection state across hot reloads/serverless calls
+
+async function connectDB(uri) {
+  if (isConnected) {
+    // If already connected, reuse the connection
+    console.log("=> Using existing MongoDB connection");
+    return;
+  }
+
   try {
-    await mongoose.connect(config.ATLAS_URI, {
+    const db = await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    })
-    return Promise.resolve("MongoDB connected");
+    });
+
+    isConnected = db.connections[0].readyState;
+    console.log("=> New MongoDB connection established");
   } catch (err) {
-    console.error("DB connection failed:", err.message);
-    process.exit(1);
+    console.error("MongoDB connection error:", err);
+    throw err;
   }
-};
+}
 
 module.exports = connectDB;
