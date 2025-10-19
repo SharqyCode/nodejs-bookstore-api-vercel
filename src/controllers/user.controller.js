@@ -2,6 +2,13 @@
 
 const userService = require("../services/user.service");
 
+const getUsers = async (req, res) => {
+    console.log("get users");
+    const users = await userService.getAllUsers
+    res.json(users)
+
+}
+
 const registerUser = async (req, res) => {
     console.log("register");
     const userData = req.body
@@ -34,4 +41,4 @@ const getProfile = async (req, res) => {
     });
 }
 
-module.exports = { registerUser, loginUser, getProfile }
+module.exports = { registerUser, loginUser, getProfile, getUsers }
