@@ -13,7 +13,7 @@ const app = express();
 
 const allowedOrigins = [
     'http://localhost:4200',       // Angular dev
-    'https://your-frontend-domain.com' // production
+    'https://musical-speculoos-e3a4c7.netlify.app' // production
 ];
 
 app.use(cors({
