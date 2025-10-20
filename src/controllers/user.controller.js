@@ -13,7 +13,7 @@ const registerUser = async (req, res) => {
     console.log("register");
     const userData = req.body
     const user = await userService.createUser(userData);
-    if (user.status === "OK")
+    if (user.status === "OK" || user.status === "CREATED")
         res.status(201).json(
             user
         );
