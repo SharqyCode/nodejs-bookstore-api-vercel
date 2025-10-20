@@ -59,7 +59,7 @@ const queryUpdateBook = async (id, newData) => {
             throw new Error("Book not found");
         }
         const newBook = await queryBookById(id)
-        console.log(`${oldBook} ===> ${newBook}`);
+        console.table(oldBook, newBook);
         return { status: "OK", message: "Book updated Successfully", oldData: oldBook, newData: newBook }
     } catch (err) {
         return {
