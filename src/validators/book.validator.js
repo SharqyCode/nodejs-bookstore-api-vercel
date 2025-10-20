@@ -31,7 +31,7 @@ const updateBookSchema = {
     properties: {
         title: { type: "string" },
         description: { type: "string" },
-        publishedYear: { type: "integer" },
+        publishedYear: { type: "string" },
         genre: {
             type: "string",
         },

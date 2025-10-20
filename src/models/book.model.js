@@ -19,7 +19,7 @@ const bookSchema = new mongoose.Schema(
             type: String,
         },
         publishedYear: {
-            type: Number,
+            type: String,
         },
         genre: {
             type: String,
