@@ -11,21 +11,21 @@ const config = require('./config');
 
 const app = express();
 
-const allowedOrigins = [
-  'http://localhost:4200',       // Angular dev
-  'https://your-frontend-domain.com' // production
-];
+// const allowedOrigins = [
+//   'http://localhost:4200',       // Angular dev
+//   'https://your-frontend-domain.com' // production
+// ];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-}));
+// app.use(cors({
+//   origin: (origin, callback) => {
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   credentials: true,
+// }));
 
 // Global middlewares
 app.use(helmet());
