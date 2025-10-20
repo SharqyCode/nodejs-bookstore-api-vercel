@@ -20,12 +20,21 @@ const getBookById = async (req, res) => {
 }
 
 const addBook = async (req, res) => {
-    const newBookData = req.body
-    const newBook = await services.queryAddBook(newBookData)
-    if (newBook.data)
-        res.status(201).json(newBook)
-    else
-        res.status(400).json(newBook)
+    try {
+        const newBookData = req.body;
+        const result = await services.queryAddBook(newBookData);
+
+        if (result.data) {
+            res.status(201).json(result);
+        } else {
+            res.status(400).json(result);
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 'INTERNAL SERVER ERROR',
+            message: error.message,
+        });
+    }
 }
 
 const updateBook = async (req, res) => {

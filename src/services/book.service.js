@@ -14,7 +14,7 @@ const queryAllBooks = async () => {
 }
 const queryBookById = async (id) => {
     try {
-        const book = await Books.findOne({ id: id }).populate("author")
+        const book = await Books.findOne({ bookId: id }).populate("author")
         if (!book) {
             throw new Error("Book not found");
         }
@@ -33,7 +33,7 @@ const queryAddBook = async (bookData) => {
         //     throw new Error("Book already in DB");
         // }
         const newBook = new Books(bookData)
-        newBook.id = uuidv4()
+        newBook.bookId = uuidv4()
         await newBook.save()
         return { status: "CREATED", message: "Book added Successfully", data: newBook }
     } catch (err) {
@@ -46,7 +46,7 @@ const queryUpdateBook = async (id, newData) => {
     console.log("Service:", oldBook);
     try {
         const modBook = await Books.updateOne(
-            { id: id },
+            { bookId: id },
             { $set: { ...newData } }
         );
         if (modBook.acknowledged === false) {
