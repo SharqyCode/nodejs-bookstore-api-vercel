@@ -18,6 +18,7 @@ const createUser = async (userData) => {
         if (existingUser) {
             throw new Error("Email already registered");
         }
+        let origPass = password;
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = new User({
             ...userData,
@@ -25,9 +26,9 @@ const createUser = async (userData) => {
             userId: uuidV4()
         });
         await user.save()
-        const userObj = { ...userData };
+        const userObj = { ...userData, password: origPass };
         delete userObj.password;
-        return { status: "CREATED", message: "User Registered successfully", data: user }
+        return { status: "CREATED", message: "User Registered successfully", data: userObj }
 
     } catch (err) {
         return { status: "BAD REQUEST", message: `Couldn't register user: ${err}` }
