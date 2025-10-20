@@ -36,9 +36,9 @@ const createUser = async (userData) => {
 
 
 const loginUser = async (userData) => {
-    const { email, password } = userData
+    const { username, password } = userData
     try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ username });
         if (!user) {
             throw new Error("user doesn't exist");
         }
@@ -52,7 +52,6 @@ const loginUser = async (userData) => {
         console.log(token);
 
         return { status: "OK", message: `Login successful`, token }
-        return token;
     } catch (err) {
         return { status: "UNAUTHORIZED", message: `Couldn't login user: ${err}` }
     }
