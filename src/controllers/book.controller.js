@@ -22,7 +22,7 @@ const getBookById = async (req, res) => {
 const addBook = async (req, res) => {
     const newBookData = req.body
     const newBook = await services.queryAddBook(newBookData)
-    if (newBook.status === "CREATED")
+    if (newBook.status == "CREATED")
         res.status(201).json(newBook)
     else
         res.status(400).json(newBook)

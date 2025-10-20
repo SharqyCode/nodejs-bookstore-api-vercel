@@ -26,12 +26,12 @@ const queryBookById = async (id) => {
 }
 
 const queryAddBook = async (bookData) => {
-    const { title } = bookData
+    // const { title } = bookData
     try {
-        const duplicates = await Books.find({ title: title })
-        if (duplicates.length > 0) {
-            throw new Error("Book already in DB");
-        }
+        // const duplicates = await Books.find({ title: title })
+        // if (duplicates.length > 0) {
+        //     throw new Error("Book already in DB");
+        // }
         const newBook = new Books(bookData)
         newBook.bookId = uuidv4()
         await newBook.save()
