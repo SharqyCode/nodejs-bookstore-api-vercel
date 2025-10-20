@@ -16,8 +16,6 @@ const app = express();
 //     'https://angular-bookstore-iti.netlify.app' // production
 // ];
 
-app.use(cors());
-
 // Global middlewares
 app.use(helmet());
 app.use(cors());
