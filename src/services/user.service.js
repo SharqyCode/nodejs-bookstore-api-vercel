@@ -27,8 +27,8 @@ const createUser = async (userData) => {
             userId: uuidV4()
         });
         await user.save()
-        const userObj = { ...userData, origPass };
-        delete userObj.password;
+        const userObj = { ...userData, password: origPass };
+        // delete userObj.password;
         return { status: "CREATED", message: "User Registered successfully", data: userObj }
 
     } catch (err) {
