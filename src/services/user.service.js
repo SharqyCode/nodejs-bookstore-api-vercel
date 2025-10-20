@@ -27,7 +27,7 @@ const createUser = async (userData) => {
         await user.save()
         const userObj = { ...userData };
         delete userObj.password;
-        return { status: "CREATED", message: "User Registered successfully", data: userObj }
+        return { status: "CREATED", message: "User Registered successfully", data: user }
 
     } catch (err) {
         return { status: "BAD REQUEST", message: `Couldn't register user: ${err}` }
