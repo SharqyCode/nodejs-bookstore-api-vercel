@@ -27,7 +27,7 @@ const bookSchema = new mongoose.Schema(
         author: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Author",
-            required: true,
+            // required: true,
         },
         coverImage: {
             type: String, // URL or path if uploading with multer
