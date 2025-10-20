@@ -2,7 +2,7 @@ const { getAllBooks, getBookById, addBook, updateBook, deleteBook } = require(".
 const express = require("express")
 const { validateId, AddBookMiddleWare, updateBookMiddleWare } = require("../middlewares/validate.middleware")
 const { validateAddBook, validateUpdateBook } = require("../validators/book.validator")
-const .router = express.Router()
+const router = express.Router()
 
 router.param("id", validateId)
 
