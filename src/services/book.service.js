@@ -47,7 +47,7 @@ const queryUpdateBook = async (id, newData) => {
     try {
         const modBook = await Books.updateOne(
             { bookId: id },
-            { $set: newData }
+            { $set: { ...newData } }
         );
         if (modBook.acknowledged === false) {
             throw new Error("update error");
