@@ -18,7 +18,7 @@ const addBookSchema = {
             type: "string", // URL or path if uploading with multer
         },
     },
-    required: ["title", "author"],
+    required: ["title"],
     additionalProperties: false
 }
 
