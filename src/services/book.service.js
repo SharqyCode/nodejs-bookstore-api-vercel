@@ -32,8 +32,8 @@ const queryAddBook = async (bookData) => {
         // if (duplicates.length > 0) {
         //     throw new Error("Book already in DB");
         // }
-        const newBook = new Books(bookData)
-        newBook.bookId = uuidv4()
+        const newBook = new Books({ ...bookData, bookId: uuidv4() })
+        // newBook.bookId = uuidv4()
         await newBook.save()
         return { status: "CREATED", message: "Book added Successfully", data: newBook }
     } catch (err) {
