@@ -67,7 +67,7 @@ const getUserById = async (id) => {
 };
 
 const getAllUsers = async () => {
-    const users = await User.find({});
+    const users = await User.find();
     // console.log(id, user);
 
     return users;
