@@ -8,7 +8,8 @@ const router = express.Router();
 // router.use("/api/books", bookRouter);
 // router.use("/api/authors", authorRouter);
 // router.use("/api/u", userRouter);
-router.use("", (req, res) => res.send(`
+router.use("", (req, res) => {
+  res.send(`
     <html>
       <head>
         <title>Book Store API</title>
@@ -81,7 +82,8 @@ router.use("", (req, res) => res.send(`
         </p>
       </body>
     </html>
-  `));
+  `)
+});
 
 
 module.exports = router;
