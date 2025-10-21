@@ -5,7 +5,6 @@ const ajv = new Ajv()
 const addBookSchema = {
     type: "object",
     properties: {
-        id: { type: "string" },
         title: { type: "string" },
         description: { type: "string" },
         publishedYear: { type: "integer" },
