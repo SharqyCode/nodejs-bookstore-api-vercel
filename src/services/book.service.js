@@ -13,6 +13,9 @@ const queryAllBooks = async () => {
     }
 }
 const queryBookById = async (id) => {
+    if (!/^[0-9a-fA-F-]{36}$/.test(id)) {
+        return { status: "BAD_REQUEST", message: "Invalid book ID format" };
+    }
     try {
         const book = await Books.findOne({ bookId: id }).populate("author")
         if (!book) {
@@ -20,20 +23,20 @@ const queryBookById = async (id) => {
         }
         return { status: 'OK', data: book }
     } catch (err) {
-        return { status: 'NO CONTENT', message: `Couldn't fetch Data: ${err}\n` }
+        return { status: "NOT_FOUND", message: `Couldn't fetch Data: ${err.message}` };
     }
 
 }
 
 const queryAddBook = async (bookData) => {
-    // const { title } = bookData
+    const { title } = bookData
     try {
-        // const duplicates = await Books.find({ title: title })
-        // if (duplicates.length > 0) {
-        //     throw new Error("Book already in DB");
-        // }
+        const duplicates = await Books.find({ title: title })
+        if (duplicates.length > 0) {
+            throw new Error("Book already in DB");
+        }
         const newBook = new Books(bookData)
-        newBook.bookId = uuidv4()
+
         await newBook.save()
         return { status: "CREATED", message: "Book added Successfully", data: newBook }
     } catch (err) {
@@ -42,25 +45,27 @@ const queryAddBook = async (bookData) => {
 }
 const queryUpdateBook = async (id, newData) => {
     console.log("Service:", id);
-    const oldBook = await queryBookById(id)
-    console.log("Service:", oldBook);
+    // const oldBook = await queryBookById(id)
+    // console.log("Service:", oldBook);
+
+
     try {
         const modBook = await Books.updateOne(
             { bookId: id },
-            { $set: { ...newData } }
+            { $set: newData }
         );
-        if (modBook.acknowledged === false) {
-            throw new Error("update error");
-        }
-        if (modBook.modifiedCount === 0) {
-            throw new Error("Book data unchanged");
-        }
-        if (modBook.matchedCount === 0) {
+        if (!modBook.acknowledged)
+            throw new Error("Update not acknowledged by MongoDB");
+
+        if (modBook.matchedCount === 0)
             throw new Error("Book not found");
-        }
-        const newBook = await queryBookById(id)
-        console.table(oldBook, newBook);
-        return { status: "OK", message: "Book updated Successfully", oldData: oldBook, newData: newBook }
+
+        if (modBook.modifiedCount === 0)
+            throw new Error("Book data unchanged");
+
+        // const newBook = await queryBookById(id)
+        // console.log(`${oldBook} ===> ${JSON.parse(newBook)}`);
+        return { status: "OK", message: "Book updated Successfully" }
     } catch (err) {
         return {
             status: "BAD REQUEST", message: `Couldn't update book: ${err}`
@@ -72,12 +77,16 @@ const queryUpdateBook = async (id, newData) => {
 const queryDeleteBook = async (id) => {
     try {
         const delBook = await Books.deleteOne({ bookId: id });
-        if (delBook.acknowledged != true || delBook.deletedCount == 0)
-            throw new Error("Book not found")
+        if (!delBook.acknowledged)
+            throw new Error("MongoDB delete not acknowledged");
+        if (delBook.deletedCount === 0)
+            throw new Error("Book not found");
+
         return { status: "OK", message: "Book deleted Successfully" }
     }
     catch (err) {
-        return { status: "400", message: `Couldn't delete book: ${err}` }
+        return { status: "BAD REQUEST", message: `Couldn't delete book: ${err.message}` };
+
     }
 }
 

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { v4: uuidv4 } = require("uuid");
 
 const bookSchema = new mongoose.Schema(
     {
@@ -7,7 +8,8 @@ const bookSchema = new mongoose.Schema(
             required: true,
             trim: true,
             immutable: true,
-            unique: true
+            unique: true,
+            default: uuidv4
         },
         title: {
             type: String,
@@ -19,18 +21,20 @@ const bookSchema = new mongoose.Schema(
             type: String,
         },
         publishedYear: {
-            type: String,
+            type: Number,
         },
         genre: {
             type: String,
+            default: "Unknown"
         },
         author: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Author",
-            // required: true,
+            required: true,
         },
         coverImage: {
             type: String, // URL or path if uploading with multer
+            default: "https://covers.openlibrary.org/b/id/7222246-L.jpg",
         },
     },
     { timestamps: true }

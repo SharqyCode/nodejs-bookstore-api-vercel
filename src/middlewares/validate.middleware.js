@@ -6,29 +6,39 @@ function validateId(req, res, next, id) {
     if (uuidValidate(id))
         next()
     else
-        res.status(400).json({ status: "BAD REQUEST", message: "Couldn't execute query: Invalid ID" })
+        res.status(400).json({ status: "BAD REQUEST", message: "Couldn't execute query: Invalid ID", errors: schemaValidator.errors, })
 }
 
-function AddBookMiddleWare(schema) {
+function AddBookMiddleWare(schemaValidator) {
     return (req, res, next) => {
+        const valid = schemaValidator(req.body);
 
-        console.log(validateAddBook);
-        if (ajv.validate(validateAddBook, req.body)) {
-            next()
+        console.log('AJV validation result:', valid);
+        console.log('AJV errors:', schemaValidator.errors);
+
+        if (valid) {
+            next();
+        } else {
+            res.status(400).json({
+                status: "BAD REQUEST",
+                message: "Couldn't add book: invalid book data",
+                errors: schemaValidator.errors,
+            });
         }
-        else {
-            res.status(400).json({ status: "BAD REQUEST", message: "Couldn't add book: invalid book data" })
-        }
-    }
+    };
 }
 
-function updateBookMiddleWare(schema) {
+
+function updateBookMiddleWare(schemaValidator) {
     return (req, res, next) => {
-        if (ajv.validate(validateUpdateBook, req.body))
+        let valid = schemaValidator(req.body)
+        console.log('AJV validation result:', valid);
+        console.log('AJV errors:', schemaValidator.errors);
+        if (valid)
             next()
         else {
             res.status(400).json({
-                status: "BAD REQUEST", message: "Couldn't update book: invalid book data"
+                status: "BAD REQUEST", message: "Couldn't update book: invalid book data", errors: schemaValidator.errors,
             })
         }
     }

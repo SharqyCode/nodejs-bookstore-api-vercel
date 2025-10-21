@@ -2,12 +2,12 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 const { v4: uuidV4 } = require("uuid")
-const { signToken } = require("../config/jwt");
+const { signToken, verifyToken } = require("../config/jwt");
 
 
 // 🔹 Helper to generate a JWT
-function generateToken(userId) {
-    return signToken({ id: userId });
+function generateToken(user) {
+    return signToken(user);
 }
 
 
@@ -18,8 +18,6 @@ const createUser = async (userData) => {
         if (existingUser) {
             throw new Error("Email already registered");
         }
-        let origPass = password;
-
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = new User({
             ...userData,
@@ -27,12 +25,12 @@ const createUser = async (userData) => {
             userId: uuidV4()
         });
         await user.save()
-        const userObj = { ...userData, password: origPass };
-        // delete userObj.password;
+        const userObj = user.toObject();
+        delete userObj.password;
         return { status: "CREATED", message: "User Registered successfully", data: userObj }
 
     } catch (err) {
-        return { status: "BAD REQUEST", message: `Couldn't register user: ${err}` }
+        return { status: "BAD REQUEST", message: `Couldn't register user: ${err.message}` };
     }
 };
 
@@ -50,12 +48,14 @@ const loginUser = async (userData) => {
         if (!isMatch) {
             throw new Error("password is incorrect")
         }
-        const token = generateToken(user.userId);
-        console.log(token);
+        console.log("user object before token:", user);
+        const token = generateToken({ userId: user.userId, role: user.role });
+        console.log("verify token", verifyToken(token));
 
         return { status: "OK", message: `Login successful`, token }
     } catch (err) {
-        return { status: "UNAUTHORIZED", message: `Couldn't login user: ${err}` }
+        return { status: "UNAUTHORIZED", message: `Couldn't login user: ${err.message}`, token: null }
+
     }
 };
 
@@ -67,11 +67,4 @@ const getUserById = async (id) => {
     return user;
 };
 
-const getAllUsers = async () => {
-    const users = await User.find();
-    // console.log(id, user);
-
-    return users;
-};
-
-module.exports = { createUser, loginUser, getUserById, getAllUsers }
+module.exports = { createUser, loginUser, getUserById }

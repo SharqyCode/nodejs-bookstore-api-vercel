@@ -13,28 +13,22 @@ const getAllBooks = async (req, res) => {
 const getBookById = async (req, res) => {
     const queryId = req.params.id
     const data = await services.queryBookById(queryId)
-    if (data.status === "OK")
-        res.status(200).json(data)
-    else
-        res.status(204).json(data)
+    if (data.status === "OK") {
+        res.status(200).json(data);
+    } else if (data.status === "BAD_REQUEST") {
+        res.status(400).json(data);
+    } else {
+        res.status(404).json(data);
+    }
 }
 
 const addBook = async (req, res) => {
-    try {
-        const newBookData = req.body;
-        const result = await services.queryAddBook(newBookData);
-
-        if (result.data) {
-            res.status(201).json(result);
-        } else {
-            res.status(400).json(result);
-        }
-    } catch (error) {
-        res.status(500).json({
-            status: 'INTERNAL SERVER ERROR',
-            message: error.message,
-        });
-    }
+    const newBookData = req.body
+    const newBook = await services.queryAddBook(newBookData)
+    if (newBook.status === "CREATED")
+        res.status(201).json(newBook)
+    else
+        res.status(400).json(newBook)
 }
 
 const updateBook = async (req, res) => {
@@ -53,9 +47,11 @@ const deleteBook = async (req, res) => {
     console.log(bookId);
     const delBook = await services.queryDeleteBook(bookId)
     if (delBook.status === "OK")
-        res.status(200).json(delBook)
+        res.status(200).json(delBook);
+    else if (delBook.message.includes("not found"))
+        res.status(404).json(delBook);
     else
-        res.status(400).json(delBook)
+        res.status(400).json(delBook);
 }
 
 module.exports = { getAllBooks, getBookById, addBook, updateBook, deleteBook }

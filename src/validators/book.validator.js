@@ -1,6 +1,5 @@
 const { Ajv } = require("ajv");
-const { default: mongoose } = require("mongoose");
-const ajv = new Ajv()
+const ajv = new Ajv({ coerceTypes: true, allErrors: true })
 
 const addBookSchema = {
     type: "object",
@@ -18,11 +17,11 @@ const addBookSchema = {
             type: "string", // URL or path if uploading with multer
         },
     },
-    required: ["title"],
+    required: ["title", "author"],
     additionalProperties: false
 }
 
-const validateAddBook = ajv.compile(addBookSchema).schema;
+const validateAddBook = ajv.compile(addBookSchema);
 
 
 const updateBookSchema = {
@@ -30,7 +29,7 @@ const updateBookSchema = {
     properties: {
         title: { type: "string" },
         description: { type: "string" },
-        publishedYear: { type: "string" },
+        publishedYear: { type: "integer" },
         genre: {
             type: "string",
         },
@@ -44,7 +43,7 @@ const updateBookSchema = {
     additionalProperties: false
 }
 
-const validateUpdateBook = ajv.compile(updateBookSchema).schema;
+const validateUpdateBook = ajv.compile(updateBookSchema);
 
 
 module.exports = { validateAddBook, validateUpdateBook }
